@@ -31,6 +31,8 @@ func (this *Walker) doWalk(dir string, visitor WalkerVisitor) (generated bool) {
 		return
 	}
 
+	p := NewParser()
+
 	for _, file := range files {
 		if strings.HasPrefix(file.Name(), ".") {
 			continue
@@ -52,8 +54,6 @@ func (this *Walker) doWalk(dir string, visitor WalkerVisitor) (generated bool) {
 			continue
 		}
 
-		p := NewParser()
-
 		err = p.Parse(path)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Error parsing file: ", err)
@@ -73,6 +73,10 @@ func (this *Walker) doWalk(dir string, visitor WalkerVisitor) (generated bool) {
 				return
 			}
 		}
+	}
+
+	for _, iface := range p.Interfaces() {
+		fmt.Printf("Generating mock for: %s\n", iface.Name)
 	}
 
 	return

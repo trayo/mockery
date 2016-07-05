@@ -1,7 +1,6 @@
 package mockery
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -50,7 +49,6 @@ func (this *FileOutputStreamProvider) GetWriter(iface *Interface, pkg string) (i
 		return nil, err, func() error { return nil }
 	}
 
-	fmt.Printf("Generating mock for: %s\n", iface.Name)
 	return f, nil, func() error {
 		return f.Close()
 	}
